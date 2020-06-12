@@ -1,7 +1,7 @@
-  export default {
+  module.exports = {
         launch: {
             headless: false,
-            slowMo: false,
-            devtools: true
+            slowMo: true,
+            devtools: false
         }
     }

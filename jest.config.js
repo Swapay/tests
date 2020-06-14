@@ -8,4 +8,4 @@
             "**/test/**/*.test.js"
         ],
         verbose: true
-    }
+    };

@@ -19,7 +19,6 @@ const getSwaps = () => {
 
 describe('user-items', () => {
     beforeAll(utils.validLogin);
-    afterAll(utils.validLogout);
 
     let itemId;
 
@@ -37,7 +36,7 @@ describe('user-items', () => {
         itemId = newItems.filter(x => !oldItems.includes(x))[0];
 
         await expect(oldItems.length).toBe(newItems.length - 1);
-        await page.click('button[data-test-item-id="'+itemId+'"]');
+        await page.click('button[data-test-item-id="' + itemId + '"]');
         await page.waitForSelector('button[data-test-id="delete"]');
         await page.click('button[data-test-id="delete"]');
 
@@ -47,13 +46,7 @@ describe('user-items', () => {
         let itemsAfterDelete = await page.evaluate(getItems);
 
         await expect(newItems.length).toBe(itemsAfterDelete.length + 1);
-
-    }, 50000);
-});
-
-describe('User swaps', () => {
-    beforeAll(utils.validLogin);
-    afterAll(utils.validLogout);
+    });
 
     it("Open swap", async () => {
         await page.goto(URL + '/profile/swaps', {waitUntil: 'domcontentloaded'});

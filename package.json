@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test-login && npm run test-other",
+    "test": "npm run test-login && npm run test-signup && npm run test-other",
     "test-login": "jest -t 'login-page'",
-    "test-other": "jest --testPathIgnorePatterns login.test.js"
+    "test-signup": "jest -t 'signup-page'",
+    "test-other": "jest --testPathIgnorePatterns login.test.js signup.test.js"
   },
   "author": "",
   "license": "ISC",

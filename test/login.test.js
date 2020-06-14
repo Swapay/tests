@@ -1,43 +1,30 @@
-const puppeteer = "puppeteer";
-
-describe('Login page', () => {
-  beforeAll(async () => {
+describe('login-page', () => {
+  beforeEach(async () => {
       await page.goto(URL+'/login', {waitUntil: 'domcontentloaded'});
   });
-  const USERNAME = 'username';
-  const PASSWORD = 'password';
+
+  afterEach(async  () => {
+    await page.goto(URL+'/logout', {waitUntil: 'domcontentloaded'});
+  });
 
   it('Should log in', async () => {
     await page.waitForSelector('form');
-    await page.type('#username', USERNAME);
-    await page.type('#password', PASSWORD);
+    await page.type('#username', VALID_USERNAME);
+    await page.type('#password', VALID_PASSWORD);
     await page.click('button[type="submit"]');
     await page.waitForNavigation();
     expect(page.url()).toMatch(URL+'/profile/swaps');
   }, 10000);
 
-  it("Add new item", async () => {
-    await page.goto(URL + '/profile/items', {waitUntil: 'domcontentloaded'});
-    await page.waitForNavigation();
+  it('Should not log in', async () => {
+    await page.waitForSelector('form');
+    await page.type('#username', 'invalid_username');
+    await page.type('#password', 'invalid_password');
+    await page.click('button[type="submit"]');
+    await page.waitForSelector('div[data-test-id="snackbar"]', 5000);
+    const passwordInput = await page.$("#password");
+    const text = await page.evaluate(element => element.textContent, passwordInput);
+    expect(text).toMatch('');
+  }, 10000);
 
-    let oldItems = await page.evaluate(() => {
-      let data = [];
-      let elements = document.getElementsByClassName('MuiPaper-root');
-      for (var element of elements)
-        data.push(element.textContent);
-      return data;
-    });
-
-    await page.evaluate(() => document.querySelector("#add-item").click());
-
-    let newItems = await page.evaluate(() => {
-      let data = [];
-      let elements = document.getElementsByClassName('MuiCard-root');
-      for (var element of elements)
-        data.push(element.textContent);
-      return data;
-    });
-
-    await expect(oldItems.length).toMatch(newItems.length - 1);
-  }, 30000);
 });

@@ -3,6 +3,7 @@ module.exports = {
     globals: {
         URL: "http://localhost:8000",
         VALID_USERNAME: 'username',
+        VALID_EMAIL: 'email',
         VALID_PASSWORD: 'password',
     },
     testMatch: [
